@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>乘除法练习</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f8ff;
+        }
+        .question {
+            font-size: 24px;
+            margin-top: 50px;
+        }
+        .options {
+            margin: 20px 0;
+        }
+        .option-btn {
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 18px;
+            background-color: #ffebcd;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        .option-btn:hover {
+            background-color: #ffd700;
+        }
+        .feedback {
+            font-size: 20px;
+            margin-top: 20px;
+            color: green;
+        }
+        .feedback.error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+<h1>乘除法练习</h1>
+<div class="question" id="question">题目</div>
+<div class="options">
+    <button class="option-btn" id="option1" onclick="checkAnswer(1)">选项1</button>
+    <button class="option-btn" id="option2" onclick="checkAnswer(2)">选项2</button>
+    <button class="option-btn" id="option3" onclick="checkAnswer(3)">选项3</button>
+</div>
+<div class="feedback" id="feedback"></div>
+
+<script>
+    let correctAnswer;
+    let questionElement = document.getElementById("question");
+    let feedbackElement = document.getElementById("feedback");
+
+    function generateQuestion() {
+        let num1 = Math.floor(Math.random() * 20) + 1;
+        let num2 = Math.floor(Math.random() * 10) + 1;
+        let isMultiplication = Math.random() > 0.5;
+
+        if (isMultiplication) {
+            questionElement.innerHTML = `${num1} x ${num2} = ?`;
+            correctAnswer = num1 * num2;
+        } else {
+            let product = num1 * num2;
+            questionElement.innerHTML = `${product} ÷ ${num1} = ?`;
+            correctAnswer = product / num1;
+        }
+
+        let options = [correctAnswer, correctAnswer + Math.floor(Math.random() * 10 + 1), correctAnswer - Math.floor(Math.random() * 10 + 1)];
+        options.sort(() => Math.random() - 0.5);
+
+        document.getElementById("option1").innerHTML = options[0];
+        document.getElementById("option2").innerHTML = options[1];
+        document.getElementById("option3").innerHTML = options[2];
+    }
+
+    function checkAnswer(option) {
+        let selectedAnswer = document.getElementById(`option${option}`).innerHTML;
+        if (parseInt(selectedAnswer) === correctAnswer) {
+            feedbackElement.innerHTML = "答对了！继续加油！";
+            feedbackElement.classList.remove("error");
+        } else {
+            feedbackElement.innerHTML = "答错了，再试一次！";
+            feedbackElement.classList.add("error");
+        }
+        setTimeout(generateQuestion, 2000); // 2秒后生成新题目
+    }
+
+    // 初始化生成题目
+    generateQuestion();
+</script>
+
+</body>
+</html>
